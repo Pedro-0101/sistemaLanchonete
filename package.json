@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "test": "vitest",
+    "test:watch": "vitest -w",
     "prepare": "husky install",
     "release": "standard-version"
   },
@@ -16,6 +17,7 @@
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "mysql2": "^3.14.3",
+    "nanoid": "^5.1.5",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

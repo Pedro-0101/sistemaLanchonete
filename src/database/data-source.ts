@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { join } from 'path';
-import { DataSource, DataSourceOptions } from 'typeorm';
 
 const dataSourceParams = {
   type: (process.env.TYPEORM_CONNECTION as string) || 'mysql',
