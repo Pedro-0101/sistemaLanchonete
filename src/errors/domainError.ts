@@ -4,9 +4,9 @@ export class DomainError extends Error {
     public code: string,
     message?: string,
     public details?: unknown,
-    options?: ErrorOptions, // <- nativo do TS quando lib ES2022 está habilitada
+    options?: ErrorOptions,
   ) {
-    super(message ?? code, options); // <- passa { cause } para o Error
+    super(message ?? code, options);
     this.name = 'DomainError';
   }
 }
