@@ -1,0 +1,37 @@
+{
+  "name": "node-typescript-template",
+  "version": "0.1.0",
+  "description": "Template for Node.js projects using TypeScript, Vitest, ESLint, Prettier, Husky, Standard-Version, and TypeORM",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "prepare": "husky install",
+    "release": "standard-version"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "sql.js": "^1.9.0",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.0.7",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.5",
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
