@@ -1,4 +1,4 @@
-import AppDataSource from './data-source';
+import { AppDataSource } from './database/data-source';
 
 export async function start() {
   if (!AppDataSource.isInitialized) {

@@ -1,20 +1,31 @@
-module.exports = [
-  {
-    files: ['**/*.ts'],
-    ignores: ['dist'],
-    languageOptions: {
-      parser: require('@typescript-eslint/parser'),
-      parserOptions: {
-        project: './tsconfig.json',
+module.exports = {
+  root: true,
+  ignorePatterns: ['dist'],
+  env: {
+    node: true,
+    es2022: true,
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
+  rules: {
+    // Adicione regras personalizadas aqui, se necessário
+  },
+  overrides: [
+    {
+      files: ['**/*.ts'],
+      rules: {
+        // Regras específicas para arquivos TS (opcional)
       },
     },
-    plugins: {
-      '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-    },
-    rules: {
-      ...require('@typescript-eslint/eslint-plugin').configs.recommended.rules,
-    },
-    settings: {},
-  },
-  require('eslint-config-prettier'),
-];
+  ],
+};
