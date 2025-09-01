@@ -1,33 +1,27 @@
-import { z } from 'zod';
-
-const Nome = z.string().min(3).max(50);
-const Id = z.number();
-const Ativo = z.union([z.literal(0), z.literal(1)]);
-
-type statusProps = {
+export type statusProps = {
   id: number;
-  nome: string;
-  ativo: number;
+  name: string;
+  active: boolean;
+  createdAt: Date;
 };
 
 export class Status {
-  private constructor(
-    public readonly id: number,
-    private nome: string,
-    private ativo: number,
-  ) {}
+  private constructor(readonly props: statusProps) {}
 
-  static create(input: statusProps) {
-    const id = Id.parse(input.id);
-    const nome = Nome.parse(input.nome);
-    const ativo = Ativo.parse(input.ativo);
-    return new Status(id, nome, ativo);
+  public static create(id: number, name: string, active: boolean) {
+    const createdAt = new Date();
+    return new Status({
+      id,
+      name,
+      active,
+      createdAt,
+    });
   }
 
-  getNome() {
-    return this.nome;
+  public getName() {
+    return this.props.name;
   }
-  getAtivo() {
-    return this.ativo;
+  public getActive() {
+    return this.props.active;
   }
 }

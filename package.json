@@ -14,6 +14,7 @@
     "release": "standard-version"
   },
   "dependencies": {
+    "class-validator": "^0.14.2",
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "mysql2": "^3.14.3",
