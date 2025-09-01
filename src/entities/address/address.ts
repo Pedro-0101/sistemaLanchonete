@@ -7,6 +7,7 @@ export type addressProps = {
   street: string;
   number: number;
   addicional: string;
+  id: number;
 };
 
 export class Address {
@@ -21,8 +22,10 @@ export class Address {
     street: string,
     number: number,
     addicional: string,
+    id: number,
   ) {
     return new Address({
+      id,
       country,
       state,
       city,

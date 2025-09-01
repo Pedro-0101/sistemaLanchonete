@@ -1,9 +1,8 @@
-import { nanoid } from 'nanoid';
 import { User } from '../user/user';
 import { Status } from '../status/Status';
 
 export type contactNumberProps = {
-  id: string;
+  id: number;
   ddd: number;
   number: number;
   user: User;
@@ -15,12 +14,12 @@ export class ContactNumber {
   private constructor(readonly props: contactNumberProps) {}
 
   public static create(
+    id: number,
     ddd: number,
     number: number,
     user: User,
     status: Status,
   ) {
-    const id = nanoid();
     const createdAt = new Date();
     return new ContactNumber({ id, ddd, number, user, status, createdAt });
   }

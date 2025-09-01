@@ -1,9 +1,8 @@
-import { nanoid } from 'nanoid';
 import { Establishment } from '../establishment/establishment';
 import { Status } from '../status/Status';
 
 export type itemMenuProps = {
-  id: string;
+  id: number;
   establishment: Establishment;
   name: string;
   description: string;
@@ -16,13 +15,13 @@ export class ItemMenu {
   private constructor(readonly props: itemMenuProps) {}
 
   public static create(
+    id: number,
     establishment: Establishment,
     name: string,
     description: string,
     price: number,
     status: Status,
   ) {
-    const id = nanoid();
     const createdAt = new Date();
     return new ItemMenu({
       id,
