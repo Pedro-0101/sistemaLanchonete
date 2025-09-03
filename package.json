@@ -19,7 +19,7 @@
     "http-errors": "^2.0.0",
     "mysql2": "^3.14.3",
     "nanoid": "^5.1.5",
-    "reflect-metadata": "^0.1.13",
+    "reflect-metadata": "^0.2.2",
     "zod-class": "^0.0.18"
   },
   "devDependencies": {
