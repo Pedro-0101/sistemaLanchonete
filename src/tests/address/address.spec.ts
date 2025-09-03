@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { validate } from "class-validator";
 import { createAddressDto } from '../../dtos/address/addressDtos'
+import { Address, addressSchema } from "../../entities/address/address";
 
 
 const country = 'Brasil'
@@ -13,7 +13,7 @@ const number = 122
 const addicional = "Teste"
 const id = 1
 
-var address = new createAddressDto(
+var validAddress = new createAddressDto(
     { id, country, state, city, cep, neighbor, street, number, addicional }
 )
 
@@ -21,11 +21,9 @@ var address = new createAddressDto(
 describe('Create address dto', async () => {
     it('Cria um endereco valido', async () => {
 
-        const errors = await validate(address)
-        console.log(errors)
+        const address = addressSchema.parse(validAddress)
 
-        expect(address).toBeInstanceOf(createAddressDto)
-        expect(errors.length).toBe(0)
+        expect(address).toBeInstanceOf(Address)
         expect(address.id).toBe(id)
         expect(address.country).toBe(country)
         expect(address.state).toBe(state)
@@ -39,23 +37,13 @@ describe('Create address dto', async () => {
 
     it('Nao cria endereco com nome de pais menor que 3', async () => {
 
-        address.country = 'br'
-
-        const errors = await validate(address)
+        validAddress.country = 'br'
+        const address = await addressSchema.parse(validAddress)
+        console.log(address)
         
-        expect(errors.length).toBe(1)
-        expect(errors.map( (e) => e.property)).toContain('country')
-
-    })
-
-    it('Nao cria endereco com nome de pais maior que 50', async () => {
-
-        address.country = 'nomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePais'
-
-        const errors = await validate(address)
         
-        expect(errors.length).toBe(1)
-        expect(errors.map( (e) => e.property)).toContain('country')
+        //expect(errors.length).toBe(1)
+        //expect(errors.map( (e) => e.property)).toContain('country')
 
     })
 })

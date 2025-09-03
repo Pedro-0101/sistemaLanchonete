@@ -1,39 +1,16 @@
-export type addressProps = {
-  country: string;
-  state: string;
-  city: string;
-  cep: string;
-  neighbor: string;
-  street: string;
-  number: number;
-  addicional: string;
-  id: number;
-};
+import { Validated } from "validated-extendable"
+import { z } from 'zod'
 
-export class Address {
-  private constructor(readonly props: addressProps) {}
+export const addressSchema = z.object({
+  country:  z.string().min(1).max(50),
+  state: z.string() ,
+  city:  z.string(),
+  cep:  z.string(),
+  neighbor:  z.string(),
+  street:  z.string(),
+  number: z.number(),
+  addicional:  z.string(),
+  id: z.number(),
+})
 
-  static create(
-    country: string,
-    state: string,
-    city: string,
-    cep: string,
-    neighbor: string,
-    street: string,
-    number: number,
-    addicional: string,
-    id: number,
-  ) {
-    return new Address({
-      id,
-      country,
-      state,
-      city,
-      cep,
-      neighbor,
-      street,
-      number,
-      addicional,
-    });
-  }
-}
+export class Address extends Validated(addressSchema){}
