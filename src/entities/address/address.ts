@@ -1,16 +1,18 @@
-import { Validated } from "validated-extendable"
-import { z } from 'zod'
+import { z } from 'zod';
+import { Z } from 'zod-class';
 
-export const addressSchema = z.object({
-  country:  z.string().min(1).max(50),
-  state: z.string() ,
-  city:  z.string(),
-  cep:  z.string(),
-  neighbor:  z.string(),
-  street:  z.string(),
-  number: z.number(),
-  addicional:  z.string(),
-  id: z.number(),
-})
-
-export class Address extends Validated(addressSchema){}
+export class Address extends Z.class({
+  id: z.number().int(),
+  country: z.string().min(1).max(50),
+  state: z.string().min(1),
+  city: z.string().min(1),
+  cep: z.string(),
+  neighborhood: z.string().min(1),
+  street: z.string().min(1),
+  number: z.number().int(),
+  addicional: z.string().optional().default(''),
+}) {
+  static create(input: z.input<ReturnType<typeof Address.schema>>) {
+    return Address.parse(input);
+  }
+}
