@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { createAddressDto } from '../../dtos/address/addressDtos';
 import { Address } from '../../entities/address/address';
 
 const country = 'Brasil';

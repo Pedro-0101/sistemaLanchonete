@@ -1,27 +1,24 @@
-export type statusProps = {
-  id: number;
-  name: string;
-  active: boolean;
-  createdAt: Date;
-};
+import { z } from 'zod';
+import { Z } from 'zod-class';
 
-export class Status {
-  private constructor(readonly props: statusProps) {}
-
-  public static create(id: number, name: string, active: boolean) {
-    const createdAt = new Date();
-    return new Status({
-      id,
-      name,
-      active,
-      createdAt,
-    });
+export class Status extends Z.class({
+  id: z.number().int().positive(),
+  name: z.string().min(3).max(50),
+  active: z.boolean(),
+  createdAt: z
+    .date()
+    .nullable()
+    .default(() => new Date()),
+}) {
+  static create(input: z.input<ReturnType<typeof Status.schema>>) {
+    return Status.parse(input);
   }
 
   public getName() {
-    return this.props.name;
+    return this.name;
   }
+
   public getActive() {
-    return this.props.active;
+    return this.active;
   }
 }
