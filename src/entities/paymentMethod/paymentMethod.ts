@@ -1,22 +1,17 @@
+import { z } from 'zod';
+import { Z } from 'zod-class';
 import { Status } from '../status/Status';
 
-export type paymentMethodProps = {
-  id: number;
-  name: string;
-  status: Status;
-  createdAt: Date;
-};
-
-export class PaymentMethod {
-  private constructor(readonly props: paymentMethodProps) {}
-
-  public static create(id: number, name: string, status: Status) {
-    const createdAt = new Date();
-    return new PaymentMethod({
-      id,
-      name,
-      status,
-      createdAt,
-    });
+export class PaymentMethod extends Z.class({
+  id: z.number().int(),
+  name: z.string().min(3).max(50),
+  status: Status.schema(),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
+}) {
+  static create(input: z.input<ReturnType<typeof PaymentMethod.schema>>) {
+    return PaymentMethod.parse(input);
   }
 }
