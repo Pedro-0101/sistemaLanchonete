@@ -1,22 +1,17 @@
+import { z } from 'zod';
+import { Z } from 'zod-class';
 import { Status } from '../status/Status';
 
-export type categoryProps = {
-  id: number;
-  name: string;
-  status: Status;
-  createdAt: Date;
-};
-
-export class Category {
-  private constructor(readonly props: categoryProps) {}
-
-  public static create(id: number, name: string, status: Status) {
-    const createdAt = new Date();
-    return new Category({
-      id,
-      name,
-      status,
-      createdAt,
-    });
+export class Category extends Z.class({
+  id: z.number().int(),
+  name: z.string().min(3).max(50),
+  status: Status.schema(),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
+}) {
+  static create(input: z.input<ReturnType<typeof Category.schema>>) {
+    return Category.parse(input);
   }
 }
