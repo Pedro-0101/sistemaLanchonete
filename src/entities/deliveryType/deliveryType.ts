@@ -1,22 +1,17 @@
+import { z } from 'zod';
+import { Z } from 'zod-class';
 import { Status } from '../status/Status';
 
-export type deliveryTypeProps = {
-  id: number;
-  name: string;
-  status: Status;
-  createdAt: Date;
-};
-
-export class deliveryType {
-  private constructor(readonly props: deliveryTypeProps) {}
-
-  public static create(id: number, name: string, status: Status) {
-    const createdAt = new Date();
-    return new deliveryType({
-      id,
-      name,
-      status,
-      createdAt,
-    });
+export class DeliveryType extends Z.class({
+  id: z.number().int(),
+  name: z.string().min(3).max(50),
+  status: Status.schema(),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
+}) {
+  static create(input: z.input<ReturnType<typeof DeliveryType.schema>>) {
+    return DeliveryType.parse(input);
   }
 }

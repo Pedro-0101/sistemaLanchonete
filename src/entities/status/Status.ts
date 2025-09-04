@@ -7,7 +7,7 @@ export class Status extends Z.class({
   active: z.boolean(),
   createdAt: z
     .date()
-    .nullable()
+    .optional()
     .default(() => new Date()),
 }) {
   static create(input: z.input<ReturnType<typeof Status.schema>>) {
