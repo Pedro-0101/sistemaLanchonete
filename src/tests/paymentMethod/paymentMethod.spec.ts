@@ -24,7 +24,10 @@ describe('payment method', () => {
     expect(paymentMethod).toBeInstanceOf(PaymentMethod);
     expect(paymentMethod.status).toBeInstanceOf(Status);
     expect(paymentMethod).toHaveProperty('id', validPaymentMethod.id);
-    expect(paymentMethod).toHaveProperty('name', validPaymentMethod.name);
+    expect(paymentMethod).toHaveProperty(
+      'name',
+      validPaymentMethod.name.toUpperCase(),
+    );
     expect(paymentMethod).toHaveProperty('status', validPaymentMethod.status);
     expect(paymentMethod).toHaveProperty(
       'createdAt',

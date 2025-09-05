@@ -33,17 +33,17 @@ const UF = z.enum([
 
 export class Address extends Z.class({
   id: z.number().int(),
-  country: z.string().min(3).max(30),
+  country: z.string().trim().toUpperCase().min(3).max(30),
   state: z
     .string()
     .transform((s) => s.trim().toUpperCase())
     .pipe(UF),
-  city: z.string().min(3).max(50),
+  city: z.string().trim().toUpperCase().min(3).max(50),
   cep: z.string().regex(/^\d{5}-?\d{3}$/, 'CEP inválido'),
-  neighborhood: z.string().min(3).max(50),
-  street: z.string().min(3).max(50),
+  neighborhood: z.string().trim().toUpperCase().min(3).max(50),
+  street: z.string().trim().toUpperCase().min(3).max(50),
   number: z.number().int(),
-  addicional: z.string().max(255).optional().default(''),
+  addicional: z.string().trim().toUpperCase().max(255).optional().default(''),
   createdAt: z
     .date()
     .optional()

@@ -56,7 +56,10 @@ describe('Establishment', () => {
 
     expect(estabelecimento).toBeInstanceOf(Establishment);
     expect(estabelecimento).toHaveProperty('id', validEstablishment.id);
-    expect(estabelecimento).toHaveProperty('name', validEstablishment.name);
+    expect(estabelecimento).toHaveProperty(
+      'name',
+      validEstablishment.name.toUpperCase(),
+    );
     expect(estabelecimento).toHaveProperty(
       'description',
       validEstablishment.description,

@@ -5,7 +5,7 @@ import { User } from '../user/user';
 
 export class Establishment extends Z.class({
   id: z.string().nanoid(),
-  name: z.string().min(3).max(50),
+  name: z.string().trim().toUpperCase().min(3).max(50),
   description: z.string().min(3).max(255),
   user: User.schema(),
   status: Status.schema(),

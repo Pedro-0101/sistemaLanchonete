@@ -24,7 +24,7 @@ describe('category type', () => {
     expect(category).toBeInstanceOf(Category);
     expect(category.status).toBeInstanceOf(Status);
     expect(category).toHaveProperty('id', validcategory.id);
-    expect(category).toHaveProperty('name', validcategory.name);
+    expect(category).toHaveProperty('name', validcategory.name.toUpperCase());
     expect(category).toHaveProperty('status', validcategory.status);
     expect(category).toHaveProperty('createdAt', validcategory.createdAt);
   });

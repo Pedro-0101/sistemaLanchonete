@@ -17,9 +17,8 @@ describe('Status', () => {
     const status = Status.create(validStatus);
 
     expect(status).toBeInstanceOf(Status);
-    expect(status).toMatchObject(validStatus);
     expect(status).toHaveProperty('id', validId);
-    expect(status).toHaveProperty('name', validName);
+    expect(status).toHaveProperty('name', validStatus.name.toUpperCase());
     expect(status).toHaveProperty('active', validActive);
     expect(status).toHaveProperty('createdAt', validCreatedAtDate);
   });

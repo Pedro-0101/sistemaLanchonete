@@ -31,17 +31,32 @@ describe('Create address dto', () => {
 
     expect(parsedAddress).toBeInstanceOf(Address);
     expect(parsedAddress).toHaveProperty('id', validAddress.id);
-    expect(parsedAddress).toHaveProperty('country', validAddress.country);
-    expect(parsedAddress).toHaveProperty('state', validAddress.state);
-    expect(parsedAddress).toHaveProperty('city', validAddress.city);
+    expect(parsedAddress).toHaveProperty(
+      'country',
+      validAddress.country.toUpperCase(),
+    );
+    expect(parsedAddress).toHaveProperty(
+      'state',
+      validAddress.state.toUpperCase(),
+    );
+    expect(parsedAddress).toHaveProperty(
+      'city',
+      validAddress.city.toUpperCase(),
+    );
     expect(parsedAddress).toHaveProperty('cep', validAddress.cep);
     expect(parsedAddress).toHaveProperty(
       'neighborhood',
-      validAddress.neighborhood,
+      validAddress.neighborhood.toUpperCase(),
     );
-    expect(parsedAddress).toHaveProperty('street', validAddress.street);
+    expect(parsedAddress).toHaveProperty(
+      'street',
+      validAddress.street.toUpperCase(),
+    );
     expect(parsedAddress).toHaveProperty('number', validAddress.number);
-    expect(parsedAddress).toHaveProperty('addicional', validAddress.addicional);
+    expect(parsedAddress).toHaveProperty(
+      'addicional',
+      validAddress.addicional.toUpperCase(),
+    );
     expect(parsedAddress).toHaveProperty('createdAt');
   });
 

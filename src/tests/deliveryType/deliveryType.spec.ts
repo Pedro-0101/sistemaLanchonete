@@ -24,7 +24,10 @@ describe('Delivery type', () => {
     expect(deliveryType).toBeInstanceOf(DeliveryType);
     expect(deliveryType.status).toBeInstanceOf(Status);
     expect(deliveryType).toHaveProperty('id', validDeliveryType.id);
-    expect(deliveryType).toHaveProperty('name', validDeliveryType.name);
+    expect(deliveryType).toHaveProperty(
+      'name',
+      validDeliveryType.name.toUpperCase(),
+    );
     expect(deliveryType).toHaveProperty('status', validDeliveryType.status);
     expect(deliveryType).toHaveProperty(
       'createdAt',

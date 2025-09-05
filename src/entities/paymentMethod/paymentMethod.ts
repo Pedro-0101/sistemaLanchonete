@@ -4,7 +4,7 @@ import { Status } from '../status/Status';
 
 export class PaymentMethod extends Z.class({
   id: z.number().int(),
-  name: z.string().min(3).max(50),
+  name: z.string().trim().toUpperCase().min(3).max(50),
   status: Status.schema(),
   createdAt: z
     .date()

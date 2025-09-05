@@ -3,7 +3,7 @@ import { Z } from 'zod-class';
 
 export class Status extends Z.class({
   id: z.number().int().positive(),
-  name: z.string().min(3).max(50),
+  name: z.string().trim().toUpperCase().min(3).max(50),
   active: z.boolean(),
   createdAt: z
     .date()

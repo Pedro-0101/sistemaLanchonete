@@ -46,7 +46,7 @@ describe('User', () => {
 
     expect(user).toBeInstanceOf(User);
     expect(user).toHaveProperty('id', validUser.id);
-    expect(user).toHaveProperty('name', validUser.name);
+    expect(user).toHaveProperty('name', validUser.name.toUpperCase());
     expect(user).toHaveProperty('contactNumber', validUser.contactNumber);
     expect(user).toHaveProperty('email', validUser.email);
     expect(user).toHaveProperty('address', validUser.address);
