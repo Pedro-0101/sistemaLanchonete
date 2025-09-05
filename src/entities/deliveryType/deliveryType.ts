@@ -11,7 +11,9 @@ export class DeliveryType extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof DeliveryType.schema>>) {
+  static create(
+    input: z.input<ReturnType<typeof DeliveryType.schema>>,
+  ): DeliveryType {
     return DeliveryType.parse(input);
   }
 }

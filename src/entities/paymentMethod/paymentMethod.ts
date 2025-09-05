@@ -11,7 +11,9 @@ export class PaymentMethod extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof PaymentMethod.schema>>) {
+  static create(
+    input: z.input<ReturnType<typeof PaymentMethod.schema>>,
+  ): PaymentMethod {
     return PaymentMethod.parse(input);
   }
 }

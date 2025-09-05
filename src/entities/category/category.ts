@@ -11,7 +11,7 @@ export class Category extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof Category.schema>>) {
+  static create(input: z.input<ReturnType<typeof Category.schema>>): Category {
     return Category.parse(input);
   }
 }

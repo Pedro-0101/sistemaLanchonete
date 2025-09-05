@@ -10,7 +10,7 @@ export class Status extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof Status.schema>>) {
+  static create(input: z.input<ReturnType<typeof Status.schema>>): Status {
     return Status.parse(input);
   }
 

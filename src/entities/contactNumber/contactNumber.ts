@@ -12,7 +12,9 @@ export class ContactNumber extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof ContactNumber.schema>>) {
+  static create(
+    input: z.input<ReturnType<typeof ContactNumber.schema>>,
+  ): ContactNumber {
     return ContactNumber.parse(input);
   }
 }

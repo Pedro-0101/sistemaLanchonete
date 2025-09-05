@@ -49,7 +49,7 @@ export class Address extends Z.class({
     .optional()
     .default(() => new Date()),
 }) {
-  static create(input: z.input<ReturnType<typeof Address.schema>>) {
+  static create(input: z.input<ReturnType<typeof Address.schema>>): Address {
     return Address.parse(input);
   }
 }
