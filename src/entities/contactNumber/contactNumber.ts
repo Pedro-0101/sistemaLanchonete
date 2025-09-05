@@ -1,38 +1,18 @@
-import { User } from '../user/user';
+import { z } from 'zod';
+import { Z } from 'zod-class';
 import { Status } from '../status/Status';
 
-export type contactNumberProps = {
-  id: number;
-  ddd: number;
-  number: number;
-  user: User;
-  status: Status;
-  createdAt: Date;
-};
-
-export class ContactNumber {
-  private constructor(readonly props: contactNumberProps) {}
-
-  public static create(
-    id: number,
-    ddd: number,
-    number: number,
-    user: User,
-    status: Status,
-  ) {
-    const createdAt = new Date();
-    return new ContactNumber({ id, ddd, number, user, status, createdAt });
-  }
-
-  public getContact() {
-    return { ddd: this.props.ddd, number: this.props.number };
-  }
-
-  public getUser() {
-    return this.props.user;
-  }
-
-  public getStatus() {
-    return this.props.status;
+export class ContactNumber extends Z.class({
+  id: z.number(),
+  ddd: z.number().min(11).max(99),
+  number: z.number().min(11111111).max(999999999),
+  status: Status.schema(),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
+}) {
+  static create(input: z.input<ReturnType<typeof ContactNumber.schema>>) {
+    return ContactNumber.parse(input);
   }
 }
