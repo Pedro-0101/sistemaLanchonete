@@ -12,7 +12,7 @@ const addicional = 'Teste';
 const id = 1;
 const date = new Date();
 
-var validAddress = {
+const validAddress = {
   id,
   country,
   state,
@@ -61,8 +61,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com nome de pais menor de 3 letras', () => {
-    const bad = { ...validAddress, country: 'co' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, country: 'co' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -73,12 +73,12 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com nome de pais maior que 30 letras', () => {
-    const bad = {
+    const bd = {
       ...validAddress,
       country:
         'nomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePaisnomeInvalidoDePais',
     };
-    const result = Address.safeParse(bad);
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -89,8 +89,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com nome de state no formato diferente de 2 letras', () => {
-    const bad = { ...validAddress, state: 'spp' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, state: 'spp' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -101,8 +101,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com nome de cidade menor que 3 letras', () => {
-    const bad = { ...validAddress, city: 'ci' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, city: 'ci' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -113,11 +113,11 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com nome de cidade maior que 50 letras', () => {
-    const bad = {
+    const bd = {
       ...validAddress,
       city: 'nomeInvalidoDeCidadeMaiorQue50LetrasnomeInvalidoDeCidadeMaiorQue50LetrasnomeInvalidoDeCidadeMaiorQue50LetrasnomeInvalidoDeCidadeMaiorQue50Letras',
     };
-    const result = Address.safeParse(bad);
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
     if (!result.success) {
@@ -128,8 +128,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com cep no formato diferente do padrao brasileiro', () => {
-    const bad = { ...validAddress, cep: '18530-00' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, cep: '18530-00' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -141,8 +141,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com bairro menor que 3 letras', () => {
-    const bad = { ...validAddress, neighborhood: 'aa' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, neighborhood: 'aa' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -154,12 +154,12 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com bairro maior que 50 letras', () => {
-    const bad = {
+    const bd = {
       ...validAddress,
       neighborhood:
         'nomeInvalidoDeDeBairroMariorQue50LetrasnomeInvalidoDeDeBairroMariorQue50LetrasnomeInvalidoDeDeBairroMariorQue50Letras',
     };
-    const result = Address.safeParse(bad);
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -171,8 +171,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com rua menor que 3 letras', () => {
-    const bad = { ...validAddress, street: 'aa' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, street: 'aa' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -184,12 +184,12 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com rua maior que 50 letras', () => {
-    const bad = {
+    const bd = {
       ...validAddress,
       street:
         'nomeInvalidoDeRuaMaiorQue50LetrasnomeInvalidoDeRuaMaiorQue50LetrasnomeInvalidoDeRuaMaiorQue50LetrasnomeInvalidoDeRuaMaiorQue50Letras',
     };
-    const result = Address.safeParse(bad);
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -201,8 +201,8 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com numero vazio', () => {
-    const bad = { ...validAddress, number: '' };
-    const result = Address.safeParse(bad);
+    const bd = { ...validAddress, number: '' };
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
@@ -214,12 +214,12 @@ describe('Create address dto', () => {
   });
 
   it('Nao cria endereco com complemento maior que 255 letras', () => {
-    const bad = {
+    const bd = {
       ...validAddress,
       addicional:
         'complementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255LetrascomplementoInvalidoMaiorQue255Letras',
     };
-    const result = Address.safeParse(bad);
+    const result = Address.safeParse(bd);
 
     expect(result.success).toBe(false);
 
