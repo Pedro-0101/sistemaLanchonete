@@ -1,63 +1,22 @@
-import { nanoid } from 'nanoid';
+import { z } from 'zod';
+import { Z } from 'zod-class';
 import { Address } from '../address/address';
 import { Status } from '../status/Status';
 import { ContactNumber } from '../contactNumber/contactNumber';
 
-export type userProps = {
-  id: string;
-  name: string;
-  contactNumber: ContactNumber;
-  email: string;
-  address: Address;
-  status: Status;
-  createdAt: Date;
-};
-
-export class User {
-  private constructor(readonly props: userProps) {}
-
-  public static create(
-    name: string,
-    contactNumber: ContactNumber,
-    email: string,
-    address: Address,
-    status: Status,
-  ) {
-    const id = nanoid();
-    const createdAt = new Date();
-
-    return new User({
-      id,
-      name,
-      contactNumber,
-      email,
-      address,
-      status,
-      createdAt,
-    });
-  }
-
-  public getName() {
-    return this.props.name;
-  }
-
-  public getContact() {
-    return this.props.contactNumber;
-  }
-
-  public getEmail() {
-    return this.props.email;
-  }
-
-  public getAddress() {
-    return this.props.address;
-  }
-
-  public getStatus() {
-    return this.props.status;
-  }
-
-  public getCreatedAt() {
-    return this.props.createdAt;
+export class User extends Z.class({
+  id: z.string().nanoid(),
+  name: z.string().min(3).max(50),
+  contactNumber: ContactNumber.schema(),
+  email: z.string().email(),
+  address: Address.schema(),
+  status: Status.schema(),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
+}) {
+  public static create(input: z.input<ReturnType<typeof User.schema>>): User {
+    return User.parse(input);
   }
 }

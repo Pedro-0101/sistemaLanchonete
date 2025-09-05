@@ -10,6 +10,7 @@ const street = 'Avenida sao joao';
 const number = 122;
 const addicional = 'Teste';
 const id = 1;
+const date = new Date();
 
 var validAddress = {
   id,
@@ -21,6 +22,7 @@ var validAddress = {
   street,
   number,
   addicional,
+  date,
 };
 
 describe('Create address dto', () => {
@@ -28,7 +30,6 @@ describe('Create address dto', () => {
     const parsedAddress = Address.create(validAddress);
 
     expect(parsedAddress).toBeInstanceOf(Address);
-    expect(parsedAddress).toEqual(validAddress);
     expect(parsedAddress).toHaveProperty('id', validAddress.id);
     expect(parsedAddress).toHaveProperty('country', validAddress.country);
     expect(parsedAddress).toHaveProperty('state', validAddress.state);
@@ -41,6 +42,7 @@ describe('Create address dto', () => {
     expect(parsedAddress).toHaveProperty('street', validAddress.street);
     expect(parsedAddress).toHaveProperty('number', validAddress.number);
     expect(parsedAddress).toHaveProperty('addicional', validAddress.addicional);
+    expect(parsedAddress).toHaveProperty('createdAt');
   });
 
   it('Nao cria endereco com nome de pais menor de 3 letras', () => {

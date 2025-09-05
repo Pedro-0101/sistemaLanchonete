@@ -44,6 +44,10 @@ export class Address extends Z.class({
   street: z.string().min(3).max(50),
   number: z.number().int(),
   addicional: z.string().max(255).optional().default(''),
+  createdAt: z
+    .date()
+    .optional()
+    .default(() => new Date()),
 }) {
   static create(input: z.input<ReturnType<typeof Address.schema>>) {
     return Address.parse(input);
