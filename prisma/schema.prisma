@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model status {
+  id             Int              @id
+  name           String
+  active         Boolean
+  created_at     DateTime         @default(now())
+  payment_method payment_method[]
+  category       category[]
+  delivery_type  delivery_type[]
+  contact_number contact_number[]
+}
+
+model payment_method {
+  id         Int      @id
+  name       String
+  status     status   @relation(fields: [status_id], references: [id])
+  status_id  Int
+  created_at DateTime @default(now())
+}
+
+model category {
+  id         Int      @id
+  name       String
+  status     status   @relation(fields: [status_id], references: [id])
+  status_id  Int
+  created_at DateTime @default(now())
+}
+
+model delivery_type {
+  id         Int      @id
+  name       String
+  status     status   @relation(fields: [status_id], references: [id])
+  status_id  Int
+  created_at DateTime @default(now())
+}
+
+model contact_number {
+  id Int @id
+  ddd Int 
+  number Int
+  status     status   @relation(fields: [status_id], references: [id])
+  status_id  Int
+  created_at DateTime @default(now())
+}

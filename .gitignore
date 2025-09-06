@@ -3,3 +3,5 @@ dist/
 .env
 coverage/
 .husky/_
+
+/src/generated/prisma
