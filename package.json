@@ -38,6 +38,7 @@
     "husky": "^9.0.7",
     "lint-staged": "^15.2.0",
     "prettier": "^3.2.5",
+    "prisma": "^6.15.0",
     "prisma-zod-generator": "^1.17.8",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
