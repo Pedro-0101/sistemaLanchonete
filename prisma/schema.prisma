@@ -130,6 +130,6 @@ model order {
   status            status         @relation(fields: [status_id], references: [id])
   status_id         Int
   created_at        DateTime       @default(now())
-  sent_date         DateTime
-  delivery_date     DateTime
+  sent_date         DateTime?
+  delivery_date     DateTime?
 }
