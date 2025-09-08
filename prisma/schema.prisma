@@ -20,6 +20,10 @@ model status {
   category       category[]
   delivery_type  delivery_type[]
   contact_number contact_number[]
+  user           user[]
+  establishment  establishment[]
+  item_menu      item_menu[]
+  order          order[]
 }
 
 model payment_method {
@@ -28,6 +32,7 @@ model payment_method {
   status     status   @relation(fields: [status_id], references: [id])
   status_id  Int
   created_at DateTime @default(now())
+  order      order[]
 }
 
 model category {
@@ -44,13 +49,87 @@ model delivery_type {
   status     status   @relation(fields: [status_id], references: [id])
   status_id  Int
   created_at DateTime @default(now())
+  order      order[]
 }
 
 model contact_number {
-  id Int @id
-  ddd Int 
-  number Int
+  id         Int      @id
+  ddd        Int
+  number     Int      @unique
   status     status   @relation(fields: [status_id], references: [id])
   status_id  Int
   created_at DateTime @default(now())
+  user       user[]
+}
+
+model address {
+  id           Int      @id
+  country      String
+  state        String
+  city         String
+  cep          String
+  neighborhood String
+  street       String
+  number       String
+  additional   String
+  created_at   DateTime @default(now())
+  user         user[]
+}
+
+model user {
+  id                String          @id
+  name              String
+  email             String          @unique
+  contact_number    contact_number  @relation(fields: [contact_number_id], references: [id])
+  contact_number_id Int
+  address           address         @relation(fields: [address_id], references: [id])
+  address_id        Int
+  status            status          @relation(fields: [status_id], references: [id])
+  status_id         Int
+  created_at        DateTime        @default(now())
+  establishment     establishment[]
+  order             order[]
+}
+
+model establishment {
+  id          String      @id
+  name        String      @unique
+  description String
+  user        user        @relation(fields: [user_id], references: [id])
+  user_id     String
+  status      status      @relation(fields: [status_id], references: [id])
+  status_id   Int
+  isOpen      Boolean
+  created_at  DateTime    @default(now())
+  item_menu   item_menu[]
+  order       order[]
+}
+
+model item_menu {
+  id               String        @id
+  name             String
+  description      String
+  price            Float
+  establishment    establishment @relation(fields: [establishment_id], references: [id])
+  establishment_id String
+  status           status        @relation(fields: [status_id], references: [id])
+  status_id        Int
+  created_at       DateTime      @default(now())
+}
+
+model order {
+  id                String         @id
+  user              user           @relation(fields: [user_id], references: [id])
+  user_id           String
+  establishment     establishment  @relation(fields: [establishment_id], references: [id])
+  establishment_id  String
+  payment_method    payment_method @relation(fields: [payment_method_id], references: [id])
+  payment_method_id Int
+  delivery_type     delivery_type  @relation(fields: [delivery_type_id], references: [id])
+  delivery_type_id  Int
+  status            status         @relation(fields: [status_id], references: [id])
+  status_id         Int
+  created_at        DateTime       @default(now())
+  sent_date         DateTime
+  delivery_date     DateTime
 }

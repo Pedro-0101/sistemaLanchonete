@@ -7,8 +7,8 @@ import { ContactNumber } from '../contactNumber/contactNumber';
 export class User extends Z.class({
   id: z.string().nanoid(),
   name: z.string().trim().toUpperCase().min(3).max(50),
-  contactNumber: ContactNumber.schema(),
   email: z.string().trim().toLowerCase().email(),
+  contactNumber: ContactNumber.schema(),
   address: Address.schema(),
   status: Status.schema(),
   createdAt: z

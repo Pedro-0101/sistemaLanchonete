@@ -11,7 +11,11 @@
     "test": "vitest --reporter verbose",
     "test:watch": "vitest -w",
     "prepare": "husky install",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:reset": "prisma migrate reset -f",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "class-validator": "^0.14.2",
