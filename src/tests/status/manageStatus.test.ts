@@ -1,5 +1,6 @@
 import { it, expect } from 'vitest';
 import { ManageStatus } from '../../usecases/status/manageStatus';
+import { Status } from '../../entities/status/Status';
 
 const manageStatus = new ManageStatus();
 
@@ -8,7 +9,8 @@ it('Realiza a consulta e retorna lista de status', async () => {
   expect(statusList.length).toBeGreaterThan(0);
 });
 
-it('Realiza a consulta de status por id e retorna o status 1', async () => {
+it('Realiza a consulta de status com id e retorna o status com id 1', async () => {
   const status = await manageStatus.getStatusById(1);
   expect(status?.id).toBe(1);
+  expect(status).toBeInstanceOf(Status);
 });

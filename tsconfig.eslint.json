@@ -1,14 +1,12 @@
 {
   "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "allowJs": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "tests/**/*.ts",
-    "vitest.config.ts",
-    "**/*.config.ts"
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/generated/**",
+    "prisma/**/client/**"
+  ]
 }
