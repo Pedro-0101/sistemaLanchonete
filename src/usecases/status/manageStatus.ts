@@ -1,7 +1,7 @@
 import { Status } from '../../entities/status/Status';
-import { PrismaStatusRepository } from '../../repositories/status/prismaStatusRepository';
+import { StatusRepository } from '../../repositories/status/statusRepository';
 
-const statusRepo = new PrismaStatusRepository();
+const statusRepo = new StatusRepository();
 
 export class ManageStatus {
   async listStatus(): Promise<Status[]> {

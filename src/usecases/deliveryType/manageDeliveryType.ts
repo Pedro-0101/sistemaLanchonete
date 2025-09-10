@@ -1,7 +1,7 @@
 import { DeliveryType } from '../../entities/deliveryType/deliveryType';
-import { PrismaDeliveryTypeRepository } from '../../repositories/deliveryType/prismaDeliveryTypeRepository';
+import { DeliveryTypeRepository } from '../../repositories/deliveryType/deliveryTypeRepository';
 
-const deliveryRepo = new PrismaDeliveryTypeRepository();
+const deliveryRepo = new DeliveryTypeRepository();
 
 export class ManageDeliveryType {
   async listDeliveryType(): Promise<DeliveryType[]> {

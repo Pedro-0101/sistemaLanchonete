@@ -2,4 +2,4 @@
 
 ## Testes
 
-- [ ] `npm test`
+- [ ] `npm run test`

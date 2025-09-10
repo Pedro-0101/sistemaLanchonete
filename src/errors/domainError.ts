@@ -1,4 +1,3 @@
-// DomainError.ts
 export class DomainError extends Error {
   constructor(
     public code: string,

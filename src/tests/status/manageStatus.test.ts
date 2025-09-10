@@ -6,11 +6,14 @@ const manageStatus = new ManageStatus();
 
 it('Realiza a consulta e retorna lista de status', async () => {
   const statusList = await manageStatus.listStatus();
+
   expect(statusList.length).toBeGreaterThan(0);
+  expect(statusList[0]).toBeInstanceOf(Status);
 });
 
 it('Realiza a consulta de status com id e retorna o status com id 1', async () => {
   const status = await manageStatus.getStatusById(1);
+
   expect(status?.id).toBe(1);
   expect(status).toBeInstanceOf(Status);
 });
