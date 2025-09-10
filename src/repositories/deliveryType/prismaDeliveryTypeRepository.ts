@@ -6,16 +6,6 @@ import { Status } from '../../entities/status/Status';
 const prisma = new PrismaClient();
 
 export class PrismaDeliveryTypeRepository implements deliveryTypeRepository {
-  async save(deliveryTypeToSave: DeliveryType): Promise<void> {
-    await prisma.delivery_type.create({
-      data: {
-        id: deliveryTypeToSave.id,
-        name: deliveryTypeToSave.name,
-        status_id: deliveryTypeToSave.status.id,
-      },
-    });
-  }
-
   async list(): Promise<DeliveryType[]> {
     const rows = await prisma.delivery_type.findMany({
       include: { status: true },
@@ -37,19 +27,24 @@ export class PrismaDeliveryTypeRepository implements deliveryTypeRepository {
     );
   }
 
-  async update(deliveryTypeToUpdate: DeliveryType): Promise<void> {
-    await prisma.delivery_type.update({
-      where: { id: deliveryTypeToUpdate.id },
-      data: {
-        name: deliveryTypeToUpdate.name,
-        status_id: deliveryTypeToUpdate.status.id,
-      },
-    });
-  }
-
-  async delete(deliveryTypeId: number): Promise<void> {
-    await prisma.delivery_type.delete({
+  async getById(deliveryTypeId: number): Promise<DeliveryType> {
+    const deliveryType = await prisma.delivery_type.findFirst({
       where: { id: deliveryTypeId },
+      include: { status: true },
+    });
+    if (!deliveryType) {
+      throw new Error('Nao encontrado');
+    }
+
+    return DeliveryType.create({
+      id: deliveryType.id,
+      name: deliveryType.name,
+      status: Status.create({
+        id: deliveryType.status.id,
+        name: deliveryType.status.name,
+        active: deliveryType.status.active,
+        creatededAt: deliveryType.status.created_at,
+      }),
     });
   }
 }

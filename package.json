@@ -10,20 +10,15 @@
     "format": "prettier --write .",
     "test": "vitest --reporter verbose",
     "test:watch": "vitest -w",
-    "prepare": "husky install",
-    "release": "standard-version",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:reset": "prisma migrate reset -f",
-    "prisma:studio": "prisma studio"
+    "release": "standard-version"
   },
   "dependencies": {
-    "class-validator": "^0.14.2",
     "express": "^5.1.0",
     "http-errors": "^2.0.0",
     "mysql2": "^3.14.3",
     "nanoid": "^5.1.5",
     "reflect-metadata": "^0.1.13",
+    "tsx": "^4.20.5",
     "zod-class": "^0.0.18"
   },
   "devDependencies": {
@@ -47,5 +42,8 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }
