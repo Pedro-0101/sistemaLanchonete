@@ -3,12 +3,12 @@ import { PrismaClient } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
-export interface StatusRepository {
+export interface StatusRepositoryInterface {
   list(): Promise<Status[]>;
   findById(statusId: number): Promise<Status | null>;
 }
 
-export class StatusRepository implements StatusRepository {
+export class StatusRepository implements StatusRepositoryInterface {
   async list(): Promise<Status[]> {
     const statuses = await prisma.status.findMany();
     return statuses.map(

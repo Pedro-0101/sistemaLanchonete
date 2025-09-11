@@ -4,12 +4,12 @@ import { Status } from '../../entities/status/Status';
 
 const prisma = new PrismaClient();
 
-export interface deliveryTypeRepository {
+export interface deliveryTypeRepositoryInteface {
   list(): Promise<DeliveryType[]>;
   getById(deliveryTypeId: number): Promise<DeliveryType>;
 }
 
-export class DeliveryTypeRepository implements deliveryTypeRepository {
+export class DeliveryTypeRepository implements deliveryTypeRepositoryInteface {
   async list(): Promise<DeliveryType[]> {
     const rows = await prisma.delivery_type.findMany({
       include: { status: true },

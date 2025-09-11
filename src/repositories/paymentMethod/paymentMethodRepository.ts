@@ -4,12 +4,14 @@ import { PrismaClient } from '../../generated/prisma';
 
 const prisma = new PrismaClient();
 
-export interface paymentMethodRepository {
+export interface paymentMethodRepositoryInterface {
   list(): Promise<PaymentMethod[]>;
   getPaymentMethodById(id: number): Promise<PaymentMethod | null>;
 }
 
-export class PaymentMethodRepository implements paymentMethodRepository {
+export class PaymentMethodRepository
+  implements paymentMethodRepositoryInterface
+{
   async list(): Promise<PaymentMethod[]> {
     const rows = await prisma.payment_method.findMany({
       include: { status: true },
