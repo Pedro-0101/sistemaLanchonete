@@ -24,6 +24,7 @@ model status {
   establishment  establishment[]
   item_menu      item_menu[]
   order          order[]
+  item_order     item_order[]
 }
 
 model payment_method {
@@ -115,6 +116,7 @@ model item_menu {
   status           status        @relation(fields: [status_id], references: [id])
   status_id        Int
   created_at       DateTime      @default(now())
+  item_order       item_order[]
 }
 
 model order {
@@ -132,4 +134,19 @@ model order {
   created_at        DateTime       @default(now())
   sent_date         DateTime?
   delivery_date     DateTime?
+  item_order        item_order[]
+}
+
+model item_order {
+  id           String    @id
+  order        order     @relation(fields: [order_id], references: [id])
+  order_id     String
+  item_menu    item_menu @relation(fields: [item_menu_id], references: [id])
+  item_menu_id String
+  quantity     Int
+  obs          String?
+  price        Float
+  status       status    @relation(fields: [status_id], references: [id])
+  status_id    Int
+  created_at   DateTime  @default(now())
 }
