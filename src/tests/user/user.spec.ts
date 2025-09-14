@@ -38,6 +38,7 @@ const validUser = {
   email: 'email@email.com',
   address: validAddress,
   status: validStatus,
+  userType: 'CLIENT',
 };
 
 describe('User', () => {
@@ -51,6 +52,7 @@ describe('User', () => {
     expect(user).toHaveProperty('email', validUser.email);
     expect(user).toHaveProperty('address', validUser.address);
     expect(user).toHaveProperty('status', validUser.status);
+    expect(user).toHaveProperty('userType', validUser.userType);
     expect(user).toHaveProperty('createdAt');
   });
   it('Nao cria usuario sem id', () => {
@@ -130,6 +132,28 @@ describe('User', () => {
     if (!result.success) {
       expect(
         result.error.issues.some((i) => i.path.join('.') === 'status'),
+      ).toBe(true);
+    }
+  });
+  it('Nao cria usuario sem userType', () => {
+    const db = { ...validUser, userType: '' };
+    const result = User.safeParse(db);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(
+        result.error.issues.some((i) => i.path.join('.') === 'userType'),
+      ).toBe(true);
+    }
+  });
+  it('Nao cria usuario com userType invalido', () => {
+    const db = { ...validUser, userType: 'INVALID' };
+    const result = User.safeParse(db);
+
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(
+        result.error.issues.some((i) => i.path.join('.') === 'userType'),
       ).toBe(true);
     }
   });

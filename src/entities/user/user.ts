@@ -11,6 +11,7 @@ export class User extends Z.class({
   contactNumber: ContactNumber.schema(),
   address: Address.schema(),
   status: Status.schema(),
+  userType: z.enum(['CLIENT', 'OWNER']),
   createdAt: z
     .date()
     .optional()

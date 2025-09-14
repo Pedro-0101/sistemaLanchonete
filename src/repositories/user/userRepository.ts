@@ -3,24 +3,26 @@ import { User } from '../../entities/user/user';
 
 const prisma = new PrismaClient();
 
-export interface userInterface {
+export interface UserInterface {
   save(user: User): Promise<User>;
   list(): Promise<User[]>;
   update(user: User): Promise<User>;
   delete(id: string): Promise<void>;
-  getById(id: string): Promise<User>;
+  getById(id: string): Promise<User | null>;
 }
 
-export class UserReposotiry implements userInterface {
+export class UserRepository implements UserInterface {
   async save(user: User): Promise<User> {
     const savedUser = await prisma.user.create({
       data: {
         id: user.id,
         name: user.name,
         email: user.email,
+        user_type: user.userType,
         contact_number_id: user.contactNumber.id,
         address_id: user.address.id,
         status_id: user.status.id,
+        created_at: user.createdAt ?? new Date(),
       },
     });
     return User.create(savedUser);
@@ -35,9 +37,9 @@ export class UserReposotiry implements userInterface {
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
       data: {
-        id: user.id,
         name: user.name,
         email: user.email,
+        user_type: user.userType,
         contact_number_id: user.contactNumber.id,
         address_id: user.address.id,
         status_id: user.status.id,
@@ -48,14 +50,15 @@ export class UserReposotiry implements userInterface {
 
   async delete(id: string): Promise<void> {
     await prisma.user.delete({
-      where: { id: id },
+      where: { id },
     });
   }
 
-  async getById(id: string): Promise<User> {
+  async getById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
-      where: { id: id },
+      where: { id },
     });
+    if (!user) return null;
     return User.create(user);
   }
 }

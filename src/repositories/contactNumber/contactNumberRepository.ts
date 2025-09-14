@@ -1,68 +1,69 @@
 import { PrismaClient } from '../../generated/prisma';
 import { ContactNumber } from '../../entities/contactNumber/contactNumber';
-import { DomainError } from '../../errors/domainError';
 
 const prisma = new PrismaClient();
 
-export interface contactNumberInterface {
+export interface ContactNumberRepo {
   save(contact: ContactNumber): Promise<ContactNumber>;
-  list(userId: number): Promise<ContactNumber[]>;
+  list(userId?: number): Promise<ContactNumber[]>;
   update(contact: ContactNumber): Promise<ContactNumber>;
   delete(id: number): Promise<void>;
-  getById(id: number): Promise<ContactNumber>;
+  getById(id: number): Promise<ContactNumber | null>;
 }
 
-export class ContactNumberRepository implements contactNumberInterface {
+export class ContactNumberRepository implements ContactNumberRepo {
   async save(contact: ContactNumber): Promise<ContactNumber> {
-    const savedContact = await prisma.contact_number.create({
+    const saved = await prisma.contact_number.create({
       data: {
         id: contact.id,
         ddd: contact.ddd,
         number: contact.number,
         status_id: contact.status.id,
+        // user_id: contact.userId,  // caso exista relação
       },
+      include: { status: true },
     });
-    return ContactNumber.create(savedContact);
+    return ContactNumber.create(saved);
   }
 
-  async list(): Promise<ContactNumber[]> {
+  async list(userId?: number): Promise<ContactNumber[]> {
     const contactNumberList = await prisma.contact_number.findMany({
+      where:
+        userId != null
+          ? {
+              /* user_id: userId */
+            }
+          : undefined,
       include: { status: true },
     });
     return contactNumberList.map((cn) => ContactNumber.create(cn));
   }
 
   async update(contact: ContactNumber): Promise<ContactNumber> {
-    const updatedContactNumber = await prisma.contact_number.update({
+    const updated = await prisma.contact_number.update({
       where: { id: contact.id },
       data: {
-        id: contact.id,
         ddd: contact.ddd,
         number: contact.number,
         status_id: contact.status.id,
       },
+      include: { status: true },
     });
-
-    return ContactNumber.create(updatedContactNumber);
+    return ContactNumber.create(updated);
   }
 
   async delete(id: number): Promise<void> {
-    await prisma.contact_number.delete({
-      where: { id: id },
-    });
+    await prisma.contact_number.delete({ where: { id } });
   }
 
-  async getById(id: number): Promise<ContactNumber> {
-    const contactNumber = prisma.contact_number.findFirst({
-      where: { id: id },
+  async getById(id: number): Promise<ContactNumber | null> {
+    const contactNumber = await prisma.contact_number.findFirst({
+      where: { id },
+      include: { status: true },
     });
 
     if (!contactNumber) {
-      throw new DomainError(
-        'CONTACT_NUMBER_NOT_FOUND',
-        'Contact number not found',
-        { id },
-      );
+      return null;
     }
 
     return ContactNumber.create(contactNumber);

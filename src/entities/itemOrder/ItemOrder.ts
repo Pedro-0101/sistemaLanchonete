@@ -9,7 +9,7 @@ export class ItemOrder extends Z.class({
   order: Order.schema(),
   item: ItemMenu.schema(),
   quantity: z.number().int().positive().min(1),
-  obs: z.string().min(3).max(255),
+  obs: z.string().min(3).max(255).optional(),
   price: z
     .number()
     .positive()

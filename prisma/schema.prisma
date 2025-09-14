@@ -85,6 +85,7 @@ model user {
   contact_number_id Int
   address           address         @relation(fields: [address_id], references: [id])
   address_id        Int
+  user_type         String
   status            status          @relation(fields: [status_id], references: [id])
   status_id         Int
   created_at        DateTime        @default(now())
