@@ -24,12 +24,25 @@ export class UserRepository implements UserInterface {
         status_id: user.status.id,
         created_at: user.createdAt ?? new Date(),
       },
+      include: {
+        contact_number: true,
+        address: true,
+        status: true,
+      },
     });
+
     return User.create(savedUser);
   }
 
   async list(): Promise<User[]> {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      include: {
+        contact_number: true,
+        address: true,
+        status: true,
+      },
+    });
+
     return users.map((u) => User.create(u));
   }
 
@@ -44,20 +57,30 @@ export class UserRepository implements UserInterface {
         address_id: user.address.id,
         status_id: user.status.id,
       },
+      include: {
+        contact_number: true,
+        address: true,
+        status: true,
+      },
     });
+
     return User.create(updatedUser);
   }
 
   async delete(id: string): Promise<void> {
-    await prisma.user.delete({
-      where: { id },
-    });
+    await prisma.user.delete({ where: { id } });
   }
 
   async getById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({
       where: { id },
+      include: {
+        contact_number: true,
+        address: true,
+        status: true,
+      },
     });
+
     if (!user) return null;
     return User.create(user);
   }

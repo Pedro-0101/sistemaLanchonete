@@ -3,15 +3,15 @@ import { Order } from '../../entities/order/order';
 
 const prisma = new PrismaClient();
 
-export interface orderInterface {
+export interface OrderInterface {
   save(order: Order): Promise<Order>;
   list(): Promise<Order[]>;
   update(order: Order): Promise<Order>;
   delete(id: string): Promise<void>;
-  getById(id: string): Promise<Order>;
+  getById(id: string): Promise<Order | null>;
 }
 
-export class OrderRepository implements orderInterface {
+export class OrderRepository implements OrderInterface {
   async save(order: Order): Promise<Order> {
     const savedOrder = await prisma.order.create({
       data: {
@@ -24,12 +24,27 @@ export class OrderRepository implements orderInterface {
         sent_date: order.sentDate,
         delivery_date: order.deliveryDate,
       },
+      include: {
+        user: true,
+        establishment: true,
+        payment_method: true,
+        delivery_type: true,
+        status: true,
+      },
     });
     return Order.create(savedOrder);
   }
 
   async list(): Promise<Order[]> {
-    const orders = await prisma.order.findMany();
+    const orders = await prisma.order.findMany({
+      include: {
+        user: true,
+        establishment: true,
+        payment_method: true,
+        delivery_type: true,
+        status: true,
+      },
+    });
     return orders.map((o) => Order.create(o));
   }
 
@@ -37,7 +52,6 @@ export class OrderRepository implements orderInterface {
     const updatedOrder = await prisma.order.update({
       where: { id: order.id },
       data: {
-        id: order.id,
         user_id: order.user.id,
         establishment_id: order.establishment.id,
         payment_method_id: order.paymentMethod.id,
@@ -46,22 +60,35 @@ export class OrderRepository implements orderInterface {
         sent_date: order.sentDate,
         delivery_date: order.deliveryDate,
       },
+      include: {
+        user: true,
+        establishment: true,
+        payment_method: true,
+        delivery_type: true,
+        status: true,
+      },
     });
     return Order.create(updatedOrder);
   }
 
   async delete(id: string): Promise<void> {
     await prisma.order.delete({
-      where: {
-        id: id,
-      },
+      where: { id },
     });
   }
 
-  async getById(id: string): Promise<Order> {
+  async getById(id: string): Promise<Order | null> {
     const order = await prisma.order.findUnique({
-      where: { id: id },
+      where: { id },
+      include: {
+        user: true,
+        establishment: true,
+        payment_method: true,
+        delivery_type: true,
+        status: true,
+      },
     });
+    if (!order) return null;
     return Order.create(order);
   }
 }

@@ -2,10 +2,12 @@ import { z } from 'zod';
 import { Z } from 'zod-class';
 import { Establishment } from '../establishment/establishment';
 import { Status } from '../status/Status';
+import { Category } from '../category/category';
 
 export class ItemMenu extends Z.class({
   id: z.string().nanoid(),
   establishment: Establishment.schema(),
+  category: Category.schema(),
   name: z.string().trim().toUpperCase().min(3).max(50),
   description: z.string().min(3).max(255),
   price: z

@@ -3,18 +3,21 @@ import { ItemMenu } from '../../entities/itemMenu/itemMenu';
 
 const prisma = new PrismaClient();
 
-export interface itemMenuInterface {
+export interface ItemMenuInterface {
   save(itemMenu: ItemMenu): Promise<ItemMenu>;
-  list(establishmentId: number): Promise<ItemMenu[]>;
+  list(establishmentId: string): Promise<ItemMenu[]>;
   update(itemMenu: ItemMenu): Promise<ItemMenu>;
-  delete(id: number): Promise<void>;
-  listByCategory(categoryId: number): Promise<ItemMenu[]>;
-  getById(id: number): Promise<ItemMenu>;
+  delete(id: string): Promise<void>;
+  listByCategory(
+    categoryId: number,
+    establishmentId?: string,
+  ): Promise<ItemMenu[]>;
+  getById(id: string): Promise<ItemMenu | null>;
 }
 
-export class ItemMenuRepository implements itemMenuInterface {
+export class ItemMenuRepository implements ItemMenuInterface {
   async save(itemMenu: ItemMenu): Promise<ItemMenu> {
-    await prisma.item_menu.create({
+    const saved = await prisma.item_menu.create({
       data: {
         id: itemMenu.id,
         name: itemMenu.name,
@@ -22,24 +25,31 @@ export class ItemMenuRepository implements itemMenuInterface {
         price: itemMenu.price,
         establishment_id: itemMenu.establishment.id,
         status_id: itemMenu.status.id,
+        category_id: itemMenu.category.id,
+      },
+      include: {
+        status: true,
+        establishment: true,
+        category: true,
       },
     });
-
-    // Follow pattern: return parsed entity
-    return ItemMenu.create(itemMenu);
+    return ItemMenu.create(saved);
   }
 
-  async list(establishmentId: number): Promise<ItemMenu[]> {
+  async list(establishmentId: string): Promise<ItemMenu[]> {
     const rows = await prisma.item_menu.findMany({
-      where: { establishment_id: String(establishmentId) },
+      where: { establishment_id: establishmentId },
+      include: {
+        status: true,
+        establishment: true,
+        category: true,
+      },
     });
-
-    // Cast DB rows to domain type to mirror other repos' lightweight mapping
-    return rows.map((r) => r as unknown as ItemMenu);
+    return rows.map((r) => ItemMenu.create(r));
   }
 
   async update(itemMenu: ItemMenu): Promise<ItemMenu> {
-    await prisma.item_menu.update({
+    const updated = await prisma.item_menu.update({
       where: { id: itemMenu.id },
       data: {
         name: itemMenu.name,
@@ -47,28 +57,49 @@ export class ItemMenuRepository implements itemMenuInterface {
         price: itemMenu.price,
         establishment_id: itemMenu.establishment.id,
         status_id: itemMenu.status.id,
+        category_id: itemMenu.category.id,
+      },
+      include: {
+        status: true,
+        establishment: true,
+        category: true,
       },
     });
-
-    return ItemMenu.create(itemMenu);
+    return ItemMenu.create(updated);
   }
 
-  async delete(id: number): Promise<void> {
-    await prisma.item_menu.delete({ where: { id: String(id) } });
+  async delete(id: string): Promise<void> {
+    await prisma.item_menu.delete({ where: { id } });
   }
 
-  async listByCategory(_categoryId: number): Promise<ItemMenu[]> {
-    // No category relation on item_menu in current schema; return all for now
-    const rows = await prisma.item_menu.findMany();
-    return rows.map((r) => r as unknown as ItemMenu);
+  async listByCategory(
+    categoryId: number,
+    establishmentId?: string,
+  ): Promise<ItemMenu[]> {
+    const rows = await prisma.item_menu.findMany({
+      where: {
+        category_id: categoryId,
+        ...(establishmentId ? { establishment_id: establishmentId } : {}),
+      },
+      include: {
+        status: true,
+        establishment: true,
+        category: true,
+      },
+    });
+    return rows.map((r) => ItemMenu.create(r));
   }
 
-  async getById(id: number): Promise<ItemMenu> {
-    const row = await prisma.item_menu.findFirst({ where: { id: String(id) } });
-    if (!row) {
-      // Use generic error pattern seen in other repositories
-      throw new Error('Nao encontrado');
-    }
-    return row as unknown as ItemMenu;
+  async getById(id: string): Promise<ItemMenu | null> {
+    const row = await prisma.item_menu.findFirst({
+      where: { id },
+      include: {
+        status: true,
+        establishment: true,
+        category: true,
+      },
+    });
+    if (!row) return null;
+    return ItemMenu.create(row);
   }
 }
