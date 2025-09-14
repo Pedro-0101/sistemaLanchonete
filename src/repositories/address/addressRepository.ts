@@ -1,18 +1,17 @@
 import { PrismaClient } from '../../generated/prisma';
 import { Address } from '../../entities/address/address';
-import { DomainError } from '../../errors/domainError';
 
 const prisma = new PrismaClient();
 
-export interface addressRepositoryInteface {
+export interface AddressRepositoryInterface {
   save(address: Address): Promise<Address>;
-  list(user_id: number): Promise<Address[]>;
+  list(userId?: number): Promise<Address[]>;
   update(address: Address): Promise<Address>;
   delete(addressId: number): Promise<void>;
-  getById(id: number): Promise<Address>;
+  getById(id: number): Promise<Address | null>;
 }
 
-export class AddressRepsitory implements addressRepositoryInteface {
+export class AddressRepository implements AddressRepositoryInterface {
   async save(address: Address): Promise<Address> {
     const savedAddress = await prisma.address.create({
       data: {
@@ -25,26 +24,30 @@ export class AddressRepsitory implements addressRepositoryInteface {
         street: address.street,
         number: address.number,
         additional: address.addicional,
+        // user_id: address.userId,  // se tiver relação
       },
     });
 
-    const parsedAddress = Address.create(savedAddress);
-    return parsedAddress;
+    return Address.create(savedAddress);
   }
 
-  async list(user_id: number): Promise<Address[]> {
-    const addressList = await prisma.address.findMany();
+  async list(userId?: number): Promise<Address[]> {
+    const addressList = await prisma.address.findMany({
+      where:
+        userId != null
+          ? {
+              /* user_id: userId */
+            }
+          : undefined,
+    });
 
-    const addresses = addressList.map((a) => Address.create({ a }));
-
-    return addresses;
+    return addressList.map((a) => Address.create(a));
   }
 
   async update(address: Address): Promise<Address> {
     const updatedAddress = await prisma.address.update({
       where: { id: address.id },
       data: {
-        id: address.id,
         country: address.country,
         state: address.state,
         city: address.city,
@@ -55,6 +58,7 @@ export class AddressRepsitory implements addressRepositoryInteface {
         additional: address.addicional,
       },
     });
+
     return Address.create(updatedAddress);
   }
 
@@ -64,13 +68,13 @@ export class AddressRepsitory implements addressRepositoryInteface {
     });
   }
 
-  async getById(id: number): Promise<Address> {
+  async getById(id: number): Promise<Address | null> {
     const address = await prisma.address.findFirst({
-      where: { id: id },
+      where: { id },
     });
 
     if (!address) {
-      throw new DomainError('ADDRESS_NOT_FOUND', 'Address not found', { id });
+      return null;
     }
 
     return Address.create(address);
