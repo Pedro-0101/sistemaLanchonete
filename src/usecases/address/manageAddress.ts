@@ -1,9 +1,10 @@
 import { Address } from '../../entities/address/address';
+import { CreateAddressDto } from '../../dtos/address.dto';
 import { DomainError } from '../../errors/domainError';
 import { AddressRepository } from '../../repositories/address/addressRepository';
 
 interface ManageAddressInterface {
-  create(address: Address): Promise<Address>;
+  create(address: CreateAddressDto): Promise<Address>;
   update(address: Address): Promise<Address>;
   delete(id: number): Promise<void>;
   findById(id: number): Promise<Address | null>;
@@ -11,9 +12,11 @@ interface ManageAddressInterface {
 }
 
 export class ManageAddress implements ManageAddressInterface {
-  constructor(private readonly repo: AddressRepository) {}
+  constructor(
+    private readonly repo: AddressRepository = AddressRepository.getInstance(),
+  ) {}
 
-  async create(address: Address): Promise<Address> {
+  async create(address: CreateAddressDto): Promise<Address> {
     return this.repo.save(address);
   }
 

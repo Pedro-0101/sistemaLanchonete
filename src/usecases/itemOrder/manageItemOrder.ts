@@ -16,7 +16,7 @@ interface ManageItemOrderInterface {
 
 export class ManageItemOrder implements ManageItemOrderInterface {
   constructor(
-    private readonly repo: ItemOrderInterface = new ItemOrderRepository(),
+    private readonly repo: ItemOrderInterface = ItemOrderRepository.getInstance(),
   ) {}
 
   async create(itemOrder: ItemOrder): Promise<ItemOrder> {

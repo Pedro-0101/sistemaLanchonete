@@ -13,6 +13,18 @@ export interface CategoryRepositoryInterface {
 }
 
 export class CategoryRepository implements CategoryRepositoryInterface {
+  private static instance: CategoryRepository;
+
+  private constructor() {}
+
+  static getInstance(): CategoryRepository {
+    if (!CategoryRepository.instance) {
+      CategoryRepository.instance = new CategoryRepository();
+    }
+
+    return CategoryRepository.instance;
+  }
+
   async save(category: Category): Promise<Category> {
     const saved = await prisma.category.create({
       data: {

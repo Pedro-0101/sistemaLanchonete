@@ -9,6 +9,18 @@ export interface StatusRepositoryInterface {
 }
 
 export class StatusRepository implements StatusRepositoryInterface {
+  private static instance: StatusRepository;
+
+  private constructor() {}
+
+  static getInstance(): StatusRepository {
+    if (!StatusRepository.instance) {
+      StatusRepository.instance = new StatusRepository();
+    }
+
+    return StatusRepository.instance;
+  }
+
   async list(): Promise<Status[]> {
     const statuses = await prisma.status.findMany();
     return statuses.map(

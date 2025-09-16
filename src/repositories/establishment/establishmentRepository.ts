@@ -12,6 +12,18 @@ export interface EstablishmentInterface {
 }
 
 export class EstablishmentRepository implements EstablishmentInterface {
+  private static instance: EstablishmentRepository;
+
+  private constructor() {}
+
+  static getInstance(): EstablishmentRepository {
+    if (!EstablishmentRepository.instance) {
+      EstablishmentRepository.instance = new EstablishmentRepository();
+    }
+
+    return EstablishmentRepository.instance;
+  }
+
   async save(establishment: Establishment): Promise<Establishment> {
     const savedEstablishment = await prisma.establishment.create({
       data: {

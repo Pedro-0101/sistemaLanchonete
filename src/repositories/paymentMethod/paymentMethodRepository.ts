@@ -12,6 +12,18 @@ export interface paymentMethodRepositoryInterface {
 export class PaymentMethodRepository
   implements paymentMethodRepositoryInterface
 {
+  private static instance: PaymentMethodRepository;
+
+  private constructor() {}
+
+  static getInstance(): PaymentMethodRepository {
+    if (!PaymentMethodRepository.instance) {
+      PaymentMethodRepository.instance = new PaymentMethodRepository();
+    }
+
+    return PaymentMethodRepository.instance;
+  }
+
   async list(): Promise<PaymentMethod[]> {
     const rows = await prisma.payment_method.findMany({
       include: { status: true },

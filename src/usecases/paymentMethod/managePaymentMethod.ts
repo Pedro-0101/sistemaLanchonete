@@ -2,7 +2,7 @@ import { PaymentMethodRepository } from '../../repositories/paymentMethod/paymen
 import { PaymentMethod } from '../../entities/paymentMethod/paymentMethod';
 import { DomainError } from '../../errors/domainError';
 
-const paymentRepo = new PaymentMethodRepository();
+const paymentRepo = PaymentMethodRepository.getInstance();
 
 export class ManagePaymentMethod {
   async list(): Promise<PaymentMethod[]> {

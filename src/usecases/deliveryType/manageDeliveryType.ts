@@ -2,7 +2,7 @@ import { DeliveryType } from '../../entities/deliveryType/deliveryType';
 import { DomainError } from '../../errors/domainError';
 import { DeliveryTypeRepository } from '../../repositories/deliveryType/deliveryTypeRepository';
 
-const deliveryRepo = new DeliveryTypeRepository();
+const deliveryRepo = DeliveryTypeRepository.getInstance();
 
 export class ManageDeliveryType {
   async listDeliveryType(): Promise<DeliveryType[]> {

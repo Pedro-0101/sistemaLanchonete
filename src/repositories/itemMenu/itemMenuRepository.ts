@@ -16,6 +16,18 @@ export interface ItemMenuInterface {
 }
 
 export class ItemMenuRepository implements ItemMenuInterface {
+  private static instance: ItemMenuRepository;
+
+  private constructor() {}
+
+  static getInstance(): ItemMenuRepository {
+    if (!ItemMenuRepository.instance) {
+      ItemMenuRepository.instance = new ItemMenuRepository();
+    }
+
+    return ItemMenuRepository.instance;
+  }
+
   async save(itemMenu: ItemMenu): Promise<ItemMenu> {
     const saved = await prisma.item_menu.create({
       data: {

@@ -6,10 +6,22 @@ const prisma = new PrismaClient();
 
 export interface deliveryTypeRepositoryInteface {
   list(): Promise<DeliveryType[]>;
-  getById(deliveryTypeId: number): Promise<DeliveryType>;
+  getById(deliveryTypeId: number): Promise<DeliveryType | null>;
 }
 
 export class DeliveryTypeRepository implements deliveryTypeRepositoryInteface {
+  private static instance: DeliveryTypeRepository;
+
+  private constructor() {}
+
+  static getInstance(): DeliveryTypeRepository {
+    if (!DeliveryTypeRepository.instance) {
+      DeliveryTypeRepository.instance = new DeliveryTypeRepository();
+    }
+
+    return DeliveryTypeRepository.instance;
+  }
+
   async list(): Promise<DeliveryType[]> {
     const rows = await prisma.delivery_type.findMany({
       include: { status: true },
@@ -30,13 +42,13 @@ export class DeliveryTypeRepository implements deliveryTypeRepositoryInteface {
     );
   }
 
-  async getById(deliveryTypeId: number): Promise<DeliveryType> {
+  async getById(deliveryTypeId: number): Promise<DeliveryType | null> {
     const deliveryType = await prisma.delivery_type.findFirst({
       where: { id: deliveryTypeId },
       include: { status: true },
     });
     if (!deliveryType) {
-      throw new Error('Nao encontrado');
+      return null;
     }
 
     return DeliveryType.create({

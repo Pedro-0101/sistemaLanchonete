@@ -13,6 +13,18 @@ export interface ItemOrderInterface {
 }
 
 export class ItemOrderRepository implements ItemOrderInterface {
+  private static instance: ItemOrderRepository;
+
+  private constructor() {}
+
+  static getInstance(): ItemOrderRepository {
+    if (!ItemOrderRepository.instance) {
+      ItemOrderRepository.instance = new ItemOrderRepository();
+    }
+
+    return ItemOrderRepository.instance;
+  }
+
   async save(itemOrder: ItemOrder): Promise<ItemOrder> {
     const saved = await prisma.item_order.create({
       data: {

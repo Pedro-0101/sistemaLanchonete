@@ -15,7 +15,7 @@ interface ManageEstablishmentInterface {
 
 export class ManageEstablishment implements ManageEstablishmentInterface {
   constructor(
-    private readonly repo: EstablishmentInterface = new EstablishmentRepository(),
+    private readonly repo: EstablishmentInterface = EstablishmentRepository.getInstance(),
   ) {}
 
   async create(establishment: Establishment): Promise<Establishment> {

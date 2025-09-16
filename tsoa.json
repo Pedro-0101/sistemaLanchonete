@@ -1,0 +1,21 @@
+{
+  "entryFile": "src/server.ts",
+  "controllerPathGlobs": ["src/controllers/**/*.ts"],
+  "noImplicitAdditionalProperties": "throw",
+  "spec": {
+    "specVersion": 3,
+    "outputDirectory": "src/swagger",
+    "basePath": "/",
+    "securityDefinitions": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "src/routes",
+    "middleware": "express"
+  }
+}

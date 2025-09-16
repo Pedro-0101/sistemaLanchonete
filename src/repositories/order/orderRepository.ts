@@ -12,6 +12,18 @@ export interface OrderInterface {
 }
 
 export class OrderRepository implements OrderInterface {
+  private static instance: OrderRepository;
+
+  private constructor() {}
+
+  static getInstance(): OrderRepository {
+    if (!OrderRepository.instance) {
+      OrderRepository.instance = new OrderRepository();
+    }
+
+    return OrderRepository.instance;
+  }
+
   async save(order: Order): Promise<Order> {
     const savedOrder = await prisma.order.create({
       data: {

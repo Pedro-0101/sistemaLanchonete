@@ -1,10 +1,11 @@
 import { PrismaClient } from '../../generated/prisma';
 import { ContactNumber } from '../../entities/contactNumber/contactNumber';
+import { CreateContactNumberDto } from '../../dtos/contactNumber.dto';
 
 const prisma = new PrismaClient();
 
 export interface ContactNumberRepo {
-  save(contact: ContactNumber): Promise<ContactNumber>;
+  save(contact: CreateContactNumberDto): Promise<ContactNumber>;
   list(userId?: number): Promise<ContactNumber[]>;
   update(contact: ContactNumber): Promise<ContactNumber>;
   delete(id: number): Promise<void>;
@@ -12,14 +13,24 @@ export interface ContactNumberRepo {
 }
 
 export class ContactNumberRepository implements ContactNumberRepo {
-  async save(contact: ContactNumber): Promise<ContactNumber> {
+  private static instance: ContactNumberRepository;
+
+  private constructor() {}
+
+  static getInstance(): ContactNumberRepository {
+    if (!ContactNumberRepository.instance) {
+      ContactNumberRepository.instance = new ContactNumberRepository();
+    }
+
+    return ContactNumberRepository.instance;
+  }
+
+  async save(contact: CreateContactNumberDto): Promise<ContactNumber> {
     const saved = await prisma.contact_number.create({
       data: {
-        id: contact.id,
         ddd: contact.ddd,
         number: contact.number,
-        status_id: contact.status.id,
-        // user_id: contact.userId,  // caso exista relação
+        status_id: contact.status_id,
       },
       include: { status: true },
     });

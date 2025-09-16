@@ -55,7 +55,7 @@ model delivery_type {
 }
 
 model contact_number {
-  id         Int      @id
+  id         Int      @id @default(autoincrement())
   ddd        Int
   number     Int      @unique
   status     status   @relation(fields: [status_id], references: [id])
@@ -65,7 +65,7 @@ model contact_number {
 }
 
 model address {
-  id           Int      @id
+  id           Int      @id @default(autoincrement())
   country      String
   state        String
   city         String
@@ -73,7 +73,7 @@ model address {
   neighborhood String
   street       String
   number       Int
-  additional   String
+  additional   String?
   created_at   DateTime @default(now())
   user         user[]
 }

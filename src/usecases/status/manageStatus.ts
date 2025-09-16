@@ -2,7 +2,7 @@ import { Status } from '../../entities/status/Status';
 import { StatusRepository } from '../../repositories/status/statusRepository';
 import { DomainError } from '../../errors/domainError';
 
-const statusRepo = new StatusRepository();
+const statusRepo = StatusRepository.getInstance();
 
 export class ManageStatus {
   async listStatus(): Promise<Status[]> {

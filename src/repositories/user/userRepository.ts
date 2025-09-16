@@ -12,6 +12,18 @@ export interface UserInterface {
 }
 
 export class UserRepository implements UserInterface {
+  private static instance: UserRepository;
+
+  private constructor() {}
+
+  static getInstance(): UserRepository {
+    if (!UserRepository.instance) {
+      UserRepository.instance = new UserRepository();
+    }
+
+    return UserRepository.instance;
+  }
+
   async save(user: User): Promise<User> {
     const savedUser = await prisma.user.create({
       data: {

@@ -1,10 +1,11 @@
 import { PrismaClient } from '../../generated/prisma';
 import { Address } from '../../entities/address/address';
+import { CreateAddressDto } from '../../dtos/address.dto';
 
 const prisma = new PrismaClient();
 
 export interface AddressRepositoryInterface {
-  save(address: Address): Promise<Address>;
+  save(address: CreateAddressDto): Promise<Address>;
   list(userId?: number): Promise<Address[]>;
   update(address: Address): Promise<Address>;
   delete(addressId: number): Promise<void>;
@@ -12,10 +13,21 @@ export interface AddressRepositoryInterface {
 }
 
 export class AddressRepository implements AddressRepositoryInterface {
-  async save(address: Address): Promise<Address> {
+  private static instance: AddressRepository;
+
+  private constructor() {}
+
+  static getInstance(): AddressRepository {
+    if (!AddressRepository.instance) {
+      AddressRepository.instance = new AddressRepository();
+    }
+
+    return AddressRepository.instance;
+  }
+
+  async save(address: CreateAddressDto): Promise<Address> {
     const savedAddress = await prisma.address.create({
       data: {
-        id: address.id,
         country: address.country,
         state: address.state,
         city: address.city,
@@ -24,7 +36,6 @@ export class AddressRepository implements AddressRepositoryInterface {
         street: address.street,
         number: address.number,
         additional: address.addicional,
-        // user_id: address.userId,  // se tiver relação
       },
     });
 

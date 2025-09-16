@@ -1,19 +1,32 @@
 import { ContactNumber } from '../../entities/contactNumber/contactNumber';
+import { CreateContactNumberDto } from '../../dtos/contactNumber.dto';
 import { DomainError } from '../../errors/domainError';
 import { ContactNumberRepository } from '../../repositories/contactNumber/contactNumberRepository';
+import { ManageStatus } from '../status/manageStatus';
 
 interface ManageContactNumberInterface {
-  create(cn: ContactNumber): Promise<ContactNumber>;
+  create(cn: CreateContactNumberDto): Promise<ContactNumber>;
   update(cn: ContactNumber): Promise<ContactNumber>;
   delete(id: number): Promise<void>;
   findById(id: number): Promise<ContactNumber | null>;
 }
 
 export class ManageContactNumber implements ManageContactNumberInterface {
-  constructor(private readonly repo: ContactNumberRepository) {}
+  constructor(
+    private readonly repo: ContactNumberRepository = ContactNumberRepository.getInstance(),
+  ) {}
 
-  async create(cn: ContactNumber): Promise<ContactNumber> {
-    return this.repo.save(cn);
+  async create(cn: CreateContactNumberDto): Promise<ContactNumber> {
+    let ms = new ManageStatus();
+    const status = await ms.getStatusById(1);
+
+    const contactNumberData = {
+      ddd: cn.ddd,
+      number: cn.number,
+      status_id: status.id,
+    };
+
+    return this.repo.save(contactNumberData);
   }
 
   async update(cn: ContactNumber): Promise<ContactNumber> {

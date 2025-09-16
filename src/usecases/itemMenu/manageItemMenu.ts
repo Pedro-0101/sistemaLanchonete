@@ -19,7 +19,7 @@ interface ManageItemMenuInterface {
 
 export class ManageItemMenu implements ManageItemMenuInterface {
   constructor(
-    private readonly repo: ItemMenuInterface = new ItemMenuRepository(),
+    private readonly repo: ItemMenuInterface = ItemMenuRepository.getInstance(),
   ) {}
 
   async create(item: ItemMenu): Promise<ItemMenu> {

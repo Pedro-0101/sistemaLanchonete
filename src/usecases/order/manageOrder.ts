@@ -15,7 +15,9 @@ interface ManageOrderInterface {
 }
 
 export class ManageOrder implements ManageOrderInterface {
-  constructor(private readonly repo: OrderInterface = new OrderRepository()) {}
+  constructor(
+    private readonly repo: OrderInterface = OrderRepository.getInstance(),
+  ) {}
 
   async create(order: Order): Promise<Order> {
     return this.repo.save(order);
