@@ -1,5 +1,5 @@
 import { ContactNumber } from '../../entities/contactNumber/contactNumber';
-import { CreateContactNumberDto } from '../../dtos/contactNumber.dto';
+import { CreateContactNumberDto } from '../../dtos/contactNumber/createContactNumber.dto';
 import { DomainError } from '../../errors/domainError';
 import { ContactNumberRepository } from '../../repositories/contactNumber/contactNumberRepository';
 import { ManageStatus } from '../status/manageStatus';

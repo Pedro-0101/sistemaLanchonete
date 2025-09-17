@@ -9,8 +9,9 @@ import {
   SuccessResponse,
   Example,
 } from 'tsoa';
-import { User } from '../entities/user/user';
-import { CreateUserDto, ExampleUser, UserResponseDto } from '../dtos/userDto';
+import { CreateUserDto } from '../dtos/user/createUser.dto';
+import { ResponseUserDto } from '../dtos/user/responseUser.dto';
+import { ExampleUser } from '../utils/examples';
 import { ManageUser } from '../usecases/user/manageUser';
 import { DomainError } from '../errors/domainError';
 
@@ -18,13 +19,13 @@ import { DomainError } from '../errors/domainError';
 @Tags('Users')
 export class UserController extends Controller {
   @Get('/')
-  public async list(): Promise<UserResponseDto[]> {
+  public async list(): Promise<ResponseUserDto[]> {
     let mu = new ManageUser();
     return await mu.list();
   }
 
   @Get('{id}')
-  public async getById(@Path() id: string): Promise<UserResponseDto> {
+  public async getById(@Path() id: string): Promise<ResponseUserDto> {
     let mu = new ManageUser();
     const user = await mu.findById(id);
     if (!user) {
@@ -37,8 +38,8 @@ export class UserController extends Controller {
 
   @SuccessResponse('201', 'Created')
   @Post('/')
-  @Example<CreateUserDto>(ExampleUser)
-  public async create(@Body() input: CreateUserDto): Promise<UserResponseDto> {
+  @Example(ExampleUser)
+  public async create(@Body() input: CreateUserDto): Promise<ResponseUserDto> {
     let mu = new ManageUser();
     const user = await mu.create(input);
     return user;

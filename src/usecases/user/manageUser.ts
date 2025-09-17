@@ -1,15 +1,15 @@
-import { CreateUserDto } from '../../dtos/userDto';
+import { CreateUserDto } from '../../dtos/user/createUser.dto';
 import { ManageStatus } from '../status/manageStatus';
 import { ManageAddress } from '../address/manageAddress';
 import { User } from '../../entities/user/user';
 import { DomainError } from '../../errors/domainError';
+import { CreateContactNumberDto } from '../../dtos/contactNumber/createContactNumber.dto';
 import {
   UserRepository,
   UserInterface,
 } from '../../repositories/user/userRepository';
 import { nanoid } from 'nanoid';
 import { ManageContactNumber } from '../contactNumber/manageContactNumber';
-import { CreateContactNumberDto } from '../../dtos/contactNumber.dto';
 
 interface ManageUserInterface {
   create(input: CreateUserDto): Promise<User>;

@@ -1,6 +1,6 @@
 import { PrismaClient } from '../../generated/prisma';
 import { ContactNumber } from '../../entities/contactNumber/contactNumber';
-import { CreateContactNumberDto } from '../../dtos/contactNumber.dto';
+import { CreateContactNumberDto } from '../../dtos/contactNumber/createContactNumber.dto';
 
 const prisma = new PrismaClient();
 

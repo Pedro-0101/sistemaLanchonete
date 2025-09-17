@@ -1,6 +1,6 @@
 import { PrismaClient } from '../../generated/prisma';
 import { Address } from '../../entities/address/address';
-import { CreateAddressDto } from '../../dtos/address.dto';
+import { CreateAddressDto } from '../../dtos/address/createAddress.dto';
 
 const prisma = new PrismaClient();
 

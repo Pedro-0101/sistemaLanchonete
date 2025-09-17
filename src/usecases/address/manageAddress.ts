@@ -1,5 +1,5 @@
 import { Address } from '../../entities/address/address';
-import { CreateAddressDto } from '../../dtos/address.dto';
+import { CreateAddressDto } from '../../dtos/address/createAddress.dto';
 import { DomainError } from '../../errors/domainError';
 import { AddressRepository } from '../../repositories/address/addressRepository';
 

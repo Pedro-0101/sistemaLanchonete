@@ -1,26 +1,25 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+import { RegisterRoutes } from './routes/routes';
 
 const app = express();
 
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Minha API',
-      version: '1.0.0',
-      description: 'Documentação da API usando Swagger',
-    },
-  },
-  apis: ['./src/routes/*.ts'],
-};
+const swaggerDocument = JSON.parse(
+  readFileSync(join(__dirname, 'swagger', 'swagger.json'), 'utf-8'),
+) as Record<string, unknown>;
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use(express.json());
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+RegisterRoutes(app);
 
-app.listen(3333, () => {
-  console.log('Servidor rodando em http://localhost:3333');
-  console.log('Docs disponíveis em http://localhost:3333/api-docs');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+const PORT = 3333;
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Docs disponiveis em http://localhost:${PORT}/api-docs`);
 });
