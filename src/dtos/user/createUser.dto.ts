@@ -7,5 +7,5 @@ export interface CreateUserDto {
   contactNumber: CreateContactNumberDto;
   address: CreateAddressDto;
   status_id: number;
-  userType: string;
+  userType: 'CLIENT' | 'OWNER';
 }

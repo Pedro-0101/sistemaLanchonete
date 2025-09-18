@@ -9,7 +9,7 @@ export class User extends Z.class({
   name: z.string().trim().toUpperCase().min(3).max(50),
   email: z.string().trim().toLowerCase().email(),
   contactNumber: ContactNumber.schema(),
-  address: Address.schema(),
+  address: Address.schema().optional(),
   status: Status.schema(),
   userType: z.enum(['CLIENT', 'OWNER']),
   createdAt: z

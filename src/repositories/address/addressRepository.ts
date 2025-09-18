@@ -35,7 +35,7 @@ export class AddressRepository implements AddressRepositoryInterface {
         neighborhood: address.neighborhood,
         street: address.street,
         number: address.number,
-        additional: address.addicional,
+        additional: address.addicional ?? '',
       },
     });
 
@@ -66,7 +66,7 @@ export class AddressRepository implements AddressRepositoryInterface {
         neighborhood: address.neighborhood,
         street: address.street,
         number: address.number,
-        additional: address.addicional,
+        additional: address.addicional ?? '',
       },
     });
 

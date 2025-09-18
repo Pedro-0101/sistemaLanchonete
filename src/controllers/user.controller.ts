@@ -29,7 +29,7 @@ export class UserController extends Controller {
     let mu = new ManageUser();
     const user = await mu.findById(id);
     if (!user) {
-      throw new DomainError('USER_NOT_FOUD', 'User not found with id ' + id, {
+      throw new DomainError('USER_NOT_FOUND', 'User not found with id ' + id, {
         id,
       });
     }
@@ -45,3 +45,4 @@ export class UserController extends Controller {
     return user;
   }
 }
+

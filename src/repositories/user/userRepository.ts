@@ -32,7 +32,7 @@ export class UserRepository implements UserInterface {
         email: user.email,
         user_type: user.userType,
         contact_number_id: user.contactNumber.id,
-        address_id: user.address.id,
+        address_id: user.address?.id,
         status_id: user.status.id,
         created_at: user.createdAt ?? new Date(),
       },

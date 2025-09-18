@@ -9,5 +9,6 @@ export type ResponseUserDto = {
   contactNumber: ContactNumberResponseDto;
   address: ResponseAddressDto;
   status: ResposeStatusDto;
-  userType: string;
+  userType: 'CLIENT' | 'OWNER';
+  createdAt?: Date;
 };

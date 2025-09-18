@@ -8,4 +8,5 @@ export interface ResponseAddressDto {
   street: string;
   number: number;
   addicional: string;
+  createdAt?: Date;
 }

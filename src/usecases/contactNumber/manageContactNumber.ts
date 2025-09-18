@@ -17,8 +17,8 @@ export class ManageContactNumber implements ManageContactNumberInterface {
   ) {}
 
   async create(cn: CreateContactNumberDto): Promise<ContactNumber> {
-    let ms = new ManageStatus();
-    const status = await ms.getStatusById(1);
+    const statusManager = new ManageStatus();
+    const status = await statusManager.getStatusById(cn.status_id);
 
     const contactNumberData = {
       ddd: cn.ddd,

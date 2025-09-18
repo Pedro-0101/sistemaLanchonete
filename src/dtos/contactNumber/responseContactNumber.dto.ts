@@ -5,4 +5,5 @@ export type ContactNumberResponseDto = {
   ddd: number;
   number: number;
   status: ResposeStatusDto;
+  createdAt?: Date;
 };

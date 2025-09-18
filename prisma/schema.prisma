@@ -84,8 +84,8 @@ model user {
   email             String          @unique
   contact_number    contact_number  @relation(fields: [contact_number_id], references: [id])
   contact_number_id Int
-  address           address         @relation(fields: [address_id], references: [id])
-  address_id        Int
+  address           address?         @relation(fields: [address_id], references: [id])
+  address_id        Int?
   user_type         String
   status            status          @relation(fields: [status_id], references: [id])
   status_id         Int

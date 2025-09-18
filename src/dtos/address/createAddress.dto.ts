@@ -6,5 +6,5 @@ export interface CreateAddressDto {
   neighborhood: string;
   street: string;
   number: number;
-  addicional: string | null;
+  addicional?: string | null;
 }

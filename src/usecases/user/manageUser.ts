@@ -3,7 +3,6 @@ import { ManageStatus } from '../status/manageStatus';
 import { ManageAddress } from '../address/manageAddress';
 import { User } from '../../entities/user/user';
 import { DomainError } from '../../errors/domainError';
-import { CreateContactNumberDto } from '../../dtos/contactNumber/createContactNumber.dto';
 import {
   UserRepository,
   UserInterface,
@@ -25,33 +24,27 @@ export class ManageUser implements ManageUserInterface {
   ) {}
 
   async create(input: CreateUserDto): Promise<User> {
-    let ms = new ManageStatus();
-    const status = await ms.getStatusById(input.status_id);
-    let ma = new ManageAddress();
-    const address = await ma.create(input.address);
-    let mc = new ManageContactNumber();
-    const contactNumber = await mc.create(
-      input.contactNumber as CreateContactNumberDto,
-    );
+    const statusManager = new ManageStatus();
+    const status = await statusManager.getStatusById(input.status_id);
 
-    if (!status) {
-      throw new DomainError(
-        'INVALID_STATUS',
-        'Invalid status on user creation',
-        { status },
-      );
-    }
+    const addressManager = new ManageAddress();
+    const address = await addressManager.create(input.address);
+
+    const contactManager = new ManageContactNumber();
+    const contactNumber = await contactManager.create(input.contactNumber);
+
     if (!address.id) {
       throw new DomainError(
         'ADDRESS_INVALID_ID',
-        'Address invalid id on user creation',
+        'Failed to create user because address lacks id',
         { address },
       );
     }
+
     if (!contactNumber.id) {
       throw new DomainError(
         'CONTACT_NUMBER_INVALID_ID',
-        'Contact number invalid id on user creation',
+        'Failed to create user because contact number lacks id',
         { contactNumber },
       );
     }
@@ -60,10 +53,10 @@ export class ManageUser implements ManageUserInterface {
       id: nanoid(),
       name: input.name,
       email: input.email,
-      contactNumber: contactNumber,
-      address: address,
-      status: status,
-      usertype: input.userType,
+      contactNumber,
+      address,
+      status,
+      userType: input.userType,
     });
 
     return this.repo.save(user);

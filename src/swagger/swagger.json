@@ -1,349 +1,387 @@
 {
-  "openapi": "3.0.0",
-  "components": {
-    "examples": {},
-    "headers": {},
-    "parameters": {},
-    "requestBodies": {},
-    "responses": {},
-    "schemas": {
-      "ResposeStatusDto": {
-        "properties": {
-          "active": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string"
-          },
-          "id": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "required": ["active", "name", "id"],
-        "type": "object"
-      },
-      "ContactNumberResponseDto": {
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/ResposeStatusDto"
-          },
-          "number": {
-            "type": "number",
-            "format": "double"
-          },
-          "ddd": {
-            "type": "number",
-            "format": "double"
-          },
-          "id": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "required": ["status", "number", "ddd", "id"],
-        "type": "object"
-      },
-      "ResponseAddressDto": {
-        "properties": {
-          "id": {
-            "type": "number",
-            "format": "double"
-          },
-          "country": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "cep": {
-            "type": "string"
-          },
-          "neighborhood": {
-            "type": "string"
-          },
-          "street": {
-            "type": "string"
-          },
-          "number": {
-            "type": "number",
-            "format": "double"
-          },
-          "addicional": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "country",
-          "state",
-          "city",
-          "cep",
-          "neighborhood",
-          "street",
-          "number",
-          "addicional"
-        ],
-        "type": "object",
-        "additionalProperties": true
-      },
-      "ResponseUserDto": {
-        "properties": {
-          "userType": {
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/ResposeStatusDto"
-          },
-          "address": {
-            "$ref": "#/components/schemas/ResponseAddressDto"
-          },
-          "contactNumber": {
-            "$ref": "#/components/schemas/ContactNumberResponseDto"
-          },
-          "email": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "id": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "userType",
-          "status",
-          "address",
-          "contactNumber",
-          "email",
-          "name",
-          "id"
-        ],
-        "type": "object"
-      },
-      "CreateContactNumberDto": {
-        "properties": {
-          "ddd": {
-            "type": "number",
-            "format": "double"
-          },
-          "number": {
-            "type": "number",
-            "format": "double"
-          },
-          "status_id": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "required": ["ddd", "number", "status_id"],
-        "type": "object",
-        "additionalProperties": true
-      },
-      "CreateAddressDto": {
-        "properties": {
-          "country": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "cep": {
-            "type": "string"
-          },
-          "neighborhood": {
-            "type": "string"
-          },
-          "street": {
-            "type": "string"
-          },
-          "number": {
-            "type": "number",
-            "format": "double"
-          },
-          "addicional": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "country",
-          "state",
-          "city",
-          "cep",
-          "neighborhood",
-          "street",
-          "number",
-          "addicional"
-        ],
-        "type": "object",
-        "additionalProperties": true
-      },
-      "CreateUserDto": {
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "contactNumber": {
-            "$ref": "#/components/schemas/CreateContactNumberDto"
-          },
-          "address": {
-            "$ref": "#/components/schemas/CreateAddressDto"
-          },
-          "status_id": {
-            "type": "number",
-            "format": "double"
-          },
-          "userType": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "name",
-          "email",
-          "contactNumber",
-          "address",
-          "status_id",
-          "userType"
-        ],
-        "type": "object",
-        "additionalProperties": true
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  },
-  "info": {
-    "title": "node-typescript-template",
-    "version": "0.1.2",
-    "description": "Template for Node.js projects using TypeScript, Vitest, ESLint, Prettier, Husky, Standard-Version, and TypeORM",
-    "contact": {}
-  },
-  "paths": {
-    "/users": {
-      "get": {
-        "operationId": "List",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ResponseUserDto"
-                  },
-                  "type": "array"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Users"],
-        "security": [],
-        "parameters": []
-      },
-      "post": {
-        "operationId": "Create",
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseUserDto"
-                },
-                "examples": {
-                  "Example 1": {
-                    "value": {
-                      "name": "JOÃO SILVA",
-                      "email": "joao.silva@email.com",
-                      "contactNumber": {
-                        "ddd": 11,
-                        "number": 987654321,
-                        "status_id": 1
-                      },
-                      "address": {
-                        "country": "BRASIL",
-                        "state": "SP",
-                        "city": "SÃO PAULO",
-                        "cep": "01001-000",
-                        "neighborhood": "CENTRO",
-                        "street": "RUA XV DE NOVEMBRO",
-                        "number": 123,
-                        "addicional": "APTO 45"
-                      },
-                      "status_id": 1,
-                      "userType": "CLIENT"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Users"],
-        "security": [],
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserDto"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "operationId": "GetById",
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseUserDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": ["Users"],
-        "security": [],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ]
-      }
-    }
-  },
-  "servers": [
-    {
-      "url": "/"
-    }
-  ]
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"ResposeStatusDto": {
+				"properties": {
+					"active": {
+						"type": "boolean"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"active",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"ContactNumberResponseDto": {
+				"properties": {
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"status": {
+						"$ref": "#/components/schemas/ResposeStatusDto"
+					},
+					"number": {
+						"type": "number",
+						"format": "double"
+					},
+					"ddd": {
+						"type": "number",
+						"format": "double"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"status",
+					"number",
+					"ddd",
+					"id"
+				],
+				"type": "object"
+			},
+			"ResponseAddressDto": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"country": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"cep": {
+						"type": "string"
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "number",
+						"format": "double"
+					},
+					"addicional": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"country",
+					"state",
+					"city",
+					"cep",
+					"neighborhood",
+					"street",
+					"number",
+					"addicional"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"ResponseUserDto": {
+				"properties": {
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"userType": {
+						"type": "string",
+						"enum": [
+							"CLIENT",
+							"OWNER"
+						]
+					},
+					"status": {
+						"$ref": "#/components/schemas/ResposeStatusDto"
+					},
+					"address": {
+						"$ref": "#/components/schemas/ResponseAddressDto"
+					},
+					"contactNumber": {
+						"$ref": "#/components/schemas/ContactNumberResponseDto"
+					},
+					"email": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"userType",
+					"status",
+					"address",
+					"contactNumber",
+					"email",
+					"name",
+					"id"
+				],
+				"type": "object"
+			},
+			"CreateContactNumberDto": {
+				"properties": {
+					"ddd": {
+						"type": "number",
+						"format": "double"
+					},
+					"number": {
+						"type": "number",
+						"format": "double"
+					},
+					"status_id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"ddd",
+					"number",
+					"status_id"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"CreateAddressDto": {
+				"properties": {
+					"country": {
+						"type": "string"
+					},
+					"state": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"cep": {
+						"type": "string"
+					},
+					"neighborhood": {
+						"type": "string"
+					},
+					"street": {
+						"type": "string"
+					},
+					"number": {
+						"type": "number",
+						"format": "double"
+					},
+					"addicional": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"country",
+					"state",
+					"city",
+					"cep",
+					"neighborhood",
+					"street",
+					"number"
+				],
+				"type": "object",
+				"additionalProperties": true
+			},
+			"CreateUserDto": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"contactNumber": {
+						"$ref": "#/components/schemas/CreateContactNumberDto"
+					},
+					"address": {
+						"$ref": "#/components/schemas/CreateAddressDto"
+					},
+					"status_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"userType": {
+						"type": "string",
+						"enum": [
+							"CLIENT",
+							"OWNER"
+						]
+					}
+				},
+				"required": [
+					"name",
+					"email",
+					"contactNumber",
+					"address",
+					"status_id",
+					"userType"
+				],
+				"type": "object",
+				"additionalProperties": true
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "node-typescript-template",
+		"version": "0.1.2",
+		"description": "Template for Node.js projects using TypeScript, Vitest, ESLint, Prettier, Husky, Standard-Version, and TypeORM",
+		"contact": {}
+	},
+	"paths": {
+		"/users": {
+			"get": {
+				"operationId": "List",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ResponseUserDto"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "Create",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseUserDto"
+								},
+								"examples": {
+									"Example 1": {
+										"value": {
+											"name": "JOÃO SILVA",
+											"email": "joao.silva@email.com",
+											"contactNumber": {
+												"ddd": 11,
+												"number": 987654321,
+												"status_id": 1
+											},
+											"address": {
+												"country": "BRASIL",
+												"state": "SP",
+												"city": "SÃO PAULO",
+												"cep": "01001-000",
+												"neighborhood": "CENTRO",
+												"street": "RUA XV DE NOVEMBRO",
+												"number": 123,
+												"addicional": "APTO 45"
+											},
+											"status_id": 1,
+											"userType": "CLIENT"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateUserDto"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseUserDto"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
 }
